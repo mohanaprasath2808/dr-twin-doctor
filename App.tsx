@@ -12,44 +12,29 @@ const App = () => {
       offsetTop={Platform.OS === 'android' ? 40 : 0}
       renderType={{
         success: toast => (
-          <View
-            pointerEvents="box-none"
-            style={styles.toastContainer}
-          >
-            <Text style={styles.toastText}>
-              {toast.message}
-            </Text>
+          <View pointerEvents="box-none" style={styles.toastContainer}>
+            <Text style={styles.toastText}>{toast.message}</Text>
           </View>
         ),
         danger: toast => (
-          <View
-            pointerEvents="box-none"
-            style={styles.toastContainer}
-          >
-            <Text style={styles.toastText}>
-              {toast.message}
-            </Text>
+          <View pointerEvents="box-none" style={styles.toastContainer}>
+            <Text style={styles.toastText}>{toast.message}</Text>
           </View>
         ),
         warning: toast => (
-          <View
-            pointerEvents="box-none"
-            style={styles.toastContainer}
-          >
-            <Text style={styles.toastText}>
-              {toast.message}
-            </Text>
+          <View pointerEvents="box-none" style={styles.toastContainer}>
+            <Text style={styles.toastText}>{toast.message}</Text>
           </View>
         ),
       }}
     >
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <NavigationContainer>
-        <AuthContextProvider>
-          <Router />
-        </AuthContextProvider>
-      </NavigationContainer>
-    </GestureHandlerRootView>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <NavigationContainer>
+          <AuthContextProvider>
+            <Router />
+          </AuthContextProvider>
+        </NavigationContainer>
+      </GestureHandlerRootView>
     </ToastProvider>
   );
 };
@@ -79,4 +64,3 @@ const styles = StyleSheet.create({
     fontFamily: 'Manrope-Medium',
   },
 });
-  
