@@ -5,12 +5,14 @@ interface Props {
   width?: number;
   height?: number;
   borderRadius?: number;
+  color?: string;
 }
 
 const InnerShadowView: React.FC<Props> = ({
   width = 300,
   height = 47,
   borderRadius = 25,
+  color = '#F7FBFF',
 }) => {
   return (
     <Canvas style={{ width, height }}>
@@ -20,11 +22,11 @@ const InnerShadowView: React.FC<Props> = ({
         width={width}
         height={height}
         r={borderRadius}
-        color="#E6EBF2"
+        color={color}
       >
         {/* Inner shadows */}
-        <Shadow dx={2} dy={2} blur={6} color="#A3B1C6" inner />
-        <Shadow dx={-2} dy={-2} blur={6} color="#FFFFFF" inner />
+        <Shadow dx={2} dy={2} blur={3} color="#C8CBCC99" inner />
+        <Shadow dx={-2} dy={-2} blur={3} color="#FFFFFFCC" inner />
       </RoundedRect>
     </Canvas>
   );

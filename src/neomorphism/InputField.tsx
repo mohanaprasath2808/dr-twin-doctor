@@ -9,6 +9,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import InnerShadowView from './InnerShadowView';
 import NeumorphicView from './NeumorphicView';
+import { COLORS } from '../constants/theme';
 
 interface Props {
   leftIcon?: React.ReactNode;
@@ -36,7 +37,7 @@ const InputField: React.FC<Props> = ({
     <View style={styles.container} onLayout={onLayout}>
       {/* 🔥 Gradient BORDER */}
       <LinearGradient
-        colors={['#D6E3F3', '#FFFFFF', '#FFFFFF', '#FFFFFF00']}
+        colors={['#D6E3F399', '#FFFFFFCC', '#FFFFFF80', '#FFFFFF00']}
         locations={[0, 0.4, 0.7, 1]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
@@ -44,37 +45,53 @@ const InputField: React.FC<Props> = ({
       >
         {/* 🔥 INNER CONTENT */}
         <View style={styles.innerWrapper}>
-          {/* Shadow */}
-          {width > 0 && (
-            <View style={styles.shadowWrapper}>
-              {focused ? (
-                <InnerShadowView width={width} height={HEIGHT} />
-              ) : (
-                <NeumorphicView width={width} height={HEIGHT} color="#F7FBFF" />
-              )}
+          {!focused && width > 0 && (
+            <View style={styles.outerShadowWrapper}>
+              <NeumorphicView
+                width={width}
+                height={HEIGHT}
+                borderRadius={RADIUS}
+                color="#F7FBFF"
+              />
             </View>
           )}
 
-          {/* Input */}
-          <View style={styles.inputWrapper}>
-            {leftIcon && <View style={styles.leftIcon}>{leftIcon}</View>}
-
-            <TextInput
-              {...props}
-              style={styles.input}
-              placeholderTextColor="#ABABAB"
-              onFocus={() => setFocused(true)}
-              onBlur={() => setFocused(false)}
-            />
-
-            {rightIcon && (
-              <TouchableOpacity
-                onPress={onRightIconPress}
-                style={styles.rightIcon}
-              >
-                {rightIcon}
-              </TouchableOpacity>
+          <View style={styles.surface}>
+            {focused && width > 0 && (
+              <View style={styles.shadowWrapper}>
+                <InnerShadowView
+                  width={width}
+                  height={HEIGHT}
+                  borderRadius={RADIUS}
+                  color="#F7FBFF"
+                />
+              </View>
             )}
+
+            {/* Input */}
+            <View style={styles.inputWrapper}>
+              {leftIcon && <View style={styles.leftIcon}>{leftIcon}</View>}
+
+              <TextInput
+                {...props}
+                style={styles.input}
+                placeholderTextColor="#ABABAB"
+                multiline={false}
+                numberOfLines={1}
+                allowFontScaling={false}
+                onFocus={() => setFocused(true)}
+                onBlur={() => setFocused(false)}
+              />
+
+              {rightIcon && (
+                <TouchableOpacity
+                  onPress={onRightIconPress}
+                  style={styles.rightIcon}
+                >
+                  {rightIcon}
+                </TouchableOpacity>
+              )}
+            </View>
           </View>
         </View>
       </LinearGradient>
@@ -91,12 +108,26 @@ const styles = StyleSheet.create({
   },
 
   gradientBorder: {
-    borderRadius: 12,
-    padding: 1, // 🔥 THIS creates border thickness
+    borderRadius: RADIUS,
+    padding: 0.6,
+    overflow: 'visible',
   },
 
   innerWrapper: {
-    borderRadius: 12,
+    borderRadius: RADIUS,
+    overflow: 'visible',
+  },
+
+  outerShadowWrapper: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    height: HEIGHT + 24,
+  },
+
+  surface: {
+    borderRadius: RADIUS,
     overflow: 'hidden',
     backgroundColor: '#F7FBFF',
   },
@@ -105,6 +136,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%',
     height: 47,
+    borderRadius: RADIUS,
   },
 
   inputWrapper: {
@@ -113,16 +145,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 15,
     zIndex: 1,
+    borderRadius: RADIUS,
   },
 
   input: {
     flex: 1,
     height: '100%',
-    color: '#000',
+    color: COLORS.TEXT_DARK,
+    fontSize: 14,
+    fontWeight: '400',
+    lineHeight: 18,
+    includeFontPadding: false,
   },
 
   leftIcon: {
-    marginRight: 10,
+    marginRight: 8,
     justifyContent: 'center',
     alignItems: 'center',
   },

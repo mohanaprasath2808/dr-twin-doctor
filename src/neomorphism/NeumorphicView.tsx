@@ -1,27 +1,52 @@
 import React from 'react';
-import { Canvas, RoundedRect, Shadow } from '@shopify/react-native-skia';
+import {
+  Canvas,
+  LinearGradient,
+  RoundedRect,
+  vec,
+} from '@shopify/react-native-skia';
 
 interface Props {
   width?: number;
   height?: number;
   borderRadius?: number;
+  color?: string;
 }
 
-const NeumorphicView = ({ width = '100%', height = 47, borderRadius = 12 }) => {
+const BOTTOM_SHADOW_HEIGHT = 24;
+
+const NeumorphicView = ({
+  width = 300,
+  height = 47,
+  borderRadius = 25,
+  color = '#F7FBFF',
+}: Props) => {
   return (
-    <Canvas style={{ width, height }}>
+    <Canvas style={{ width, height: height + BOTTOM_SHADOW_HEIGHT }}>
+      <RoundedRect
+        x={0}
+        y={2}
+        width={width}
+        height={height}
+        r={borderRadius}
+        color="#C8CBCC"
+      >
+        <LinearGradient
+          start={vec(0, 2)}
+          end={vec(0, height + 2)}
+          colors={['#C8CBCC00', '#C8CBCC00', '#C8CBCC2B', '#C8CBCC85']}
+          positions={[0, 0.56, 0.8, 1]}
+        />
+      </RoundedRect>
+
       <RoundedRect
         x={0}
         y={0}
-        width={typeof width === 'string' ? 999 : width} // fallback
+        width={width}
         height={height}
         r={borderRadius}
-        color="#E6EBF2"
-      >
-        <Shadow dx={4} dy={4} blur={20} color="#C8CBCC" />
-        <Shadow dx={-6} dy={-6} blur={20} color="#FFFFFFE5" />
-        <Shadow dx={2} dy={2} blur={4} color="#728EAB1A" />
-      </RoundedRect>
+        color={color}
+      />
     </Canvas>
   );
 };
